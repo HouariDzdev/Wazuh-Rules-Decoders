@@ -13,7 +13,7 @@
   <prematch>^device_name="\w+"</prematch>
 </decoder>
 
-<!-- child decocders are PARENTSDECODERS.LOGTYPE  eg: sophos-fw-xg.child -->
+
 
 
 <decoder name="sophos-fw-xg.child">
@@ -82,7 +82,7 @@
   <order>message</order>
 </decoder>
 
-<!-- LOG TYPE : ANTIVIRUS HTTP/HTTPS COMPONANT -->
+<!-- LOG TYPE : ANTIVIRUS HTTP/HTTPS  -->
 
 <decoder name="sophos-fw-xg.child">
   <parent>sophos-fw-xg</parent>
@@ -204,7 +204,7 @@
 </decoder>
 
 
-<!-- LOG TYPE : ANTIVIRUS FTP COMPONANT -->
+<!-- LOG TYPE : ANTIVIRUS FTP  -->
 
 <decoder name="sophos-fw-xg.child">
   <parent>sophos-fw-xg</parent>
@@ -312,7 +312,7 @@
 </decoder>
 
 
-<!-- ADVANCED THREAT PROTECTION ! ATP LOGS! -->
+<!--  THREAT PROTECTION ! ATP LOGS! -->
 
 <decoder name="sophos-fw-xg.child">
   <parent>sophos-fw-xg</parent>
@@ -337,6 +337,7 @@
 
 
 <!-- client used to authenticate webclient .. ipsec .. ios ect.. -->
+
 <decoder name="sophos-fw-xg.child">
   <parent>sophos-fw-xg</parent>
   <regex>client_used="(\.*)"|client_used="(\.*)"$</regex>
@@ -367,7 +368,7 @@
   <order>dstmac</order>
 </decoder>
 
-<!-- EMAIL ANTI SPAM -->
+<!-- EMAIL ANTI-SPAM -->
 
 
 <decoder name="sophos-fw-xg.child">
@@ -437,12 +438,6 @@
   <regex>quarantine_reason="(\.*)"|quarantine_reason="(\.*)"$</regex>
   <order>quarantine_reason</order>
 </decoder>
-
-
-<!-- EMAIL ANTIVIRUS : NEED TO BE IMPELEMNTED LATER WHEN THERE IS SPECIFIQUE! LOGS EXAMPLE!-->
-
-<!-- FIRLEWALL-LOGs : NEED TO BE IMPELEMNTED LATER WHEN THERE IS SPECIFIQUE! LOGS EXAMPLE!-->
-
 
 <decoder name="sophos-fw-xg.child">
   <parent>sophos-fw-xg</parent>
