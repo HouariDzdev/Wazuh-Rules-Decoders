@@ -1,2 +1,3 @@
 # Wazuh-Rules-Decoders
-## You will find here all custom wazuh siem & Feel free to use it! 
+## You will find here all custom  wazuh siem (RULES / DECODERS)  
+## Feel free to use it! (*_*) 
