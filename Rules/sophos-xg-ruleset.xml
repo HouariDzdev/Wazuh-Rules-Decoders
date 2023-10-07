@@ -1,0 +1,599 @@
+<!-- Modify it at your will. -->
+
+<group name="sophosxgfrw,">
+    <rule id="910000" level="0" noalert="1">
+    <decoded_as>sophos-fw-xg</decoded_as>
+    <description>Decoded by the new generation SOPHOS-XG decoder</description>
+    </rule>
+</group>
+
+
+<!-- WEB FILTER ALERTS! -->
+
+<group name="sophosxgfrw,webfilter">
+
+     <!---Transaction is allowed based on web policy rule ID:16001-->
+     
+    <rule id="910001" level="3">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">16001</field>
+    <description>[WebFiltring] $(domain) ($(site_category):$(http_category_type)) is allowed based on web policy rule ID:$(web_policy_id) </description>
+    </rule>
+    
+    
+    <rule id="910002" level="3">
+    <if_sid>910001</if_sid>
+    <field name="log_message_id">16001</field>
+    <field name="override_authorizer">\.+</field>
+    <description>[WebFiltring] Token override code was used to access no authorised website $(domain) by $(user_name) </description>
+    </rule>
+    
+   <!-- <rule id="910011" level="3" frequency="3" timeframe="300" noalert="1">
+    <if_matched_sid>910001</if_matched_sid>
+    <same_field>user_name</same_field>
+    <same_srcip/>
+    <same_field>domain</same_field>
+    <description>[webfiltring] prevent flooding rule!</description>
+    </rule> -->
+    
+     <!---Transaction was denied/blocked based on web policy rule ID:16002-->
+     
+    <rule id="910003" level="3">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">16002</field>
+    <description>[WebFiltring] $(domain) ($(site_category):$(http_category_type)) is (denied/blocked) based on web policy rule ID: $(web_policy_id) </description>
+    </rule>
+
+    
+     <!---Transaction is allowed based on web policy rule ID:16003-->
+     
+    <rule id="910004" level="3">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">16003</field>
+    <description>[WebFiltring] HTTP file $(upload_file_name):$(upload_file_type) upload allowed to $(domain) based on web policy rule ID: $(web_policy_id) </description>
+    </rule>
+    
+     <!---Transaction is allowed based on web policy rule ID:16004-->
+     
+    <rule id="916005" level="3">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">16004</field>
+    <description>[WebFiltring] Token override </description>
+    </rule>
+    
+     <!---Transaction resulted in a warning based on web policy rules  ID:16005-->
+     
+    <rule id="916006" level="3">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">16005</field>
+    <description>[WebFiltring] Transaction resulted in a warning based on web policy rules ID:$(web_policy_id) </description>
+    </rule>
+    
+    <!---Transaction was allowed after the user proceeded through a warning page! ID:16006-->
+     
+    <rule id="916007" level="3">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">16006</field>
+    <description>[WebFiltring] Transaction was allowed after the user proceeded through a warning </description>
+    </rule>
+    
+    <!---HTTP file upload warned allowed ID:16007-->
+     
+    <rule id="910008" level="3">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">16007</field>
+    <description>[WebFiltring] HTTP file $(upload_file_name):$(upload_file_type) upload (WARNED) allowed to $(domain) based on web policy rule ID: $(web_policy_id) </description>
+    </rule>
+    
+    <rule id="910010" level="3">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">16010</field>
+    <description>[WebFiltring] Content filter matched fire action $(action) </description>
+    </rule>
+    
+</group>
+
+
+<!-- Application FILTER ALERTS! -->
+
+<group name="sophosxgfrw,applicationfiter">
+
+<rule id="910050" level="5">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">17051</field>
+    <description>[ApplicationFiltring] Application : $(app_name) Categorized as : $(app_category) with risk_level of : $(app_risk) was blocked</description>
+   <!-- <description>[ApplicationFiltring] Application was blocked </description> --> 
+</rule>
+
+
+<rule id="910052" level="12">
+    <if_sid>910050</if_sid>
+    <field name="app_risk">5</field>
+    <description>[ApplicationFiltring] [HIGH ALERT] Application : $(app_name) Categorized as : $(app_category) with risk_level of : $(app_risk) was blocked</description>
+</rule>
+
+<!-- prevent flooding -->
+
+<rule id="910051" level="0" frequency="2" timeframe="90">
+    <if_matched_sid>910050</if_matched_sid>
+    <same_field>user_name</same_field>
+    <same_srcip/>
+    <same_field>app_name</same_field>
+    <description>[ApplicationFiltring] Application : $(app_name) Categorized as : $(app_category) with risklevel of : $(app_risk) was blocked</description>
+</rule>
+
+</group>
+
+
+<!-- Malware -->
+
+<group name="sophosxgfrw,malware,dlp,">
+    
+    <rule id="910075" level="10">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">08001</field>
+    <description>[Malware] The URL from $(domain) has been blocked as it contained a virus</description>
+    </rule>
+    
+    <rule id="910076" level="3">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">08002</field>
+    <description>[Malware] Access to URL is allowed as it does not contain any virus</description>
+    </rule>
+    
+    <rule id="910077" level="10">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">09001</field>
+    <description>[Malware] FTP data transfer action: $(traffic_direction) from $(url) was blocked as it contained a virus</description>
+    </rule>
+    
+    <rule id="910078" level="10">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">09002</field>
+    <description>[Malware] FTP data transfer action: $(traffic_direction) from $(url) didn’t have any virus and completed successfully possibile DLP attemp!</description>
+    </rule>
+        
+    
+    <rule id="910079" level="10">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">10001</field>
+    <description>[Malware] SMTP : The mail is infected with a virus detected by the firewall </description>
+    </rule>
+    
+    <rule id="910080" level="5">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">10002</field>
+    <description>[Malware] Mail does not contain any virus </description>
+    </rule>
+    
+    <rule id="910081" level="10">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">11001</field>
+    <description>[Malware] POPS: The mail is infected with a virus detected by the firewall</description>
+    </rule>
+    
+    <rule id="910082" level="5">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">11002</field>
+    <description>[Malware] Mail does not contain any virus</description>
+    </rule>
+    
+    <rule id="910083" level="10">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">12001</field>
+    <description>[Malware] IMAPS : The mail is infected with a virus detected by the firewall</description>
+    </rule>
+    
+    <rule id="910084" level="10">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">12002</field>
+    <description>[Malware] Mail does not contain any virus </description>
+    </rule>
+      
+    
+</group>
+
+
+<group name="sophosxgfrw,email,">
+    
+    <rule id="910100" level="10">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">13001</field>
+    <description>[Email] A mail From : $(sender_email) considered to be SPAM </description>
+    </rule>
+    
+    <rule id="910101" level="10">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">13002</field>
+    <description>[Email] A mail From : $(sender_email) considered to be PROBABLE SPAM </description>
+    </rule>
+    
+    <rule id="910102" level="3">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">13003</field>
+    <description> [Email] A mail From : $(sender_email) A mail was not considered SPAM or PROBABLE SPAM </description>
+    </rule>
+    
+    <rule id="910102" level="10">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">13004</field>
+    <description> [Email] Sender IP $(srcip) from domain :$(sender_domain) address is blocked </description>
+    </rule>
+    
+    <rule id="910103" level="10">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">13005</field>
+    <description> [Email] A mail from $(sender_email) considered to be an outbound spam</description>
+    </rule>
+    
+     <rule id="910104" level="10">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">13006</field>
+    <description> [Email] A mail from $(sender_email) considered to be an outbound probable spam</description>
+    </rule>
+    
+    <rule id="910105" level="3">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">13007</field>
+    <description> [Email] Flagged clean by both IBS/OBS </description>
+    </rule>
+    
+    <rule id="910106" level="10">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">13008</field>
+    <description> [Email] email Message from $(sender_email) is marked clean by outbound </description>
+    </rule>
+    
+    <rule id="910107" level="10">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">13009</field>
+    <description> [Email] email Message from $(sender_email) is DLP (Exfiltration of sensitive data) detected</description>
+    </rule>
+    
+    <rule id="910108" level="10">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">13012</field>
+    <description> [Email] SMTP DOS Attack detected!</description>
+    </rule>
+    
+    <rule id="910109" level="3" noalert="1">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">13013</field>
+    <description> [Email] Email is marked clean by Sandstorm !</description>
+    </rule>
+    
+    <rule id="910110" level="10">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">13014</field>
+    <description> [Email] Email from $(sender_email) is marked malicious by Sandstorm </description>
+    </rule>
+      
+    <rule id="910111" level="10">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">14001</field>
+    <description> [Email] Email from $(sender_email) considered to be SPAM </description>
+    </rule>
+    
+    <rule id="910112" level="10">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">14002</field>
+    <description> [Email] Email from $(sender_email) considered to be PROBABLE SPAM </description>
+    </rule>
+    
+    <rule id="910113" level="3" noalert="1">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">14003</field>
+    <description> [Email] Email from $(sender_email) was not considered SPAM or PROBABLE SPAM</description>
+    </rule>
+       
+    <rule id="910114" level="10">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">15001</field>
+    <description> [Email] Email from $(sender_email) considered to be SPAM </description>
+    </rule>
+    
+    <rule id="910115" level="10">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">15002</field>
+    <description> [Email] Email from $(sender_email) considered to be PROBABLE SPAM </description>
+    </rule>
+    
+    <rule id="910116" level="3" noalert="1">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">15003</field>
+    <description> [Email] Email from $(sender_email) was not considered SPAM or PROBABLE SPAM</description>
+    </rule>
+    
+</group>
+
+<!-- firewalling rule ! -->
+<group name="sophosxgfrw,acl-firewall,">
+ 
+    <!-- rule id reserverd : 910150 -> 910200 -->
+    
+    <rule id="910150" level="3">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">00001</field>
+    <description>[firewallACL] Traffic Allowed: from $(srcip) to $(dstip)</description>
+    </rule>
+    
+    <rule id="910151" level="7">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">00002</field>
+    <description>[firewallACL] Traffic denied: from $(srcip) to $(dstip)</description>
+    </rule>
+    
+    <rule id="910152" level="7">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">00003</field>
+    <description>[firewallACL] traffic dropped by Security Heartbeat: from $(srcip) to $(dstip)</description>
+    </rule>
+    
+      
+    <rule id="910153" level="7">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">03001</field>
+    <description>[firewallACL] DoS attack dropped : from $(srcip) to $(dstip)</description>
+    </rule>
+    
+    <rule id="910154" level="7">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">02001</field>
+    <description>[firewallACL] Local ACL traffic allowed : from $(srcip) to $(dstip)</description>
+    </rule>
+
+    <rule id="910155" level="7">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">02002</field>
+    <description>[firewallACL] Local ACL traffic denied : from $(srcip) to $(dstip)</description>
+    </rule>
+
+    <rule id="910156" level="7">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">05201</field>
+    <description>[firewallACL] SSL VPN resource access denied $(srcip) </description>
+    </rule>
+    
+    <rule id="910157" level="7">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">05301</field>
+    <description>[firewallACL] ARP flood traffic denied </description>
+    </rule>
+
+
+</group>
+
+
+<group name="sophosxgfrw,ips,">
+ 
+    <!-- rule id reserverd : 910201 -> 910250 -->
+    
+    <rule id="910201" level="12">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">06001</field>
+    <description>[IPS] IPS anomaly detected: from $(srcip) to $(dstip) classified as : $(classification)</description>
+    </rule>
+    
+    <rule id="910202" level="12">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">06002</field>
+    <description>[IPS] IPS anomaly dropped: from $(srcip) to $(dstip) classified as : $(classification)</description>
+    </rule>
+    
+    <rule id="910203" level="10">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">07001</field>
+    <description>[IPS] IPS signature detected classified as : $(classification)</description>
+    </rule>
+    
+    <rule id="910204" level="12">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">07002</field>
+    <description>[IPS] IPS signature dropped classified as : $(classification)</description>
+    </rule>
+
+
+</group>
+
+<group name="sophosxgfrw,authentication">
+
+  <!-- rule id reserverd : 910251 -> 910350 -->
+  
+    <rule id="910251" level="6">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">17701</field>
+    <description>[AuthenticationEvent] $(user_name) logged in successfully to firewall (CaptivePortal)</description>
+    </rule>
+    
+    <rule id="910252" level="8">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">17702</field>
+    <description>[AuthenticationEvent] $(user_name) failed login in to firewall (CaptivePortal)</description>
+    </rule>
+    
+    <!-- brutforce attack agains captiveportal --> 
+    <rule id="910253" level="10" frequency="3" timeframe="90">
+    <if_matched_sid>910252</if_matched_sid>
+    <same_field>user_name</same_field>
+    <same_srcip/>
+    <description>[AuthenticationEvent] Multiple failed login from $(user_name) to firewall (CaptivePortal)  Possible bruteforce Attack!</description>
+    </rule>
+    
+    <rule id="910254" level="0">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">17703</field>
+    <description>[AuthenticationEvent] $(user_name) User logged out from firewall</description>
+    </rule>
+    
+    <rule id="910255" level="6">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">17704</field>
+    <description>[AuthenticationEvent] $(user_name) User logged in successfully to his/her (UserPortal)</description>
+    </rule>
+    
+    <rule id="910256" level="6">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">17705</field>
+    <description>[AuthenticationEvent] $(user_name) failed login-in to his/her (UserPortal)</description>
+    </rule>
+    
+    <!-- brutforce attack agains userportal --> 
+    <rule id="910257" level="10" frequency="3" timeframe="90">
+    <if_matched_sid>910256</if_matched_sid>
+    <same_field>user_name</same_field>
+    <same_srcip/>
+    <description>[AuthenticationEvent] Multiple failed login from $(user_name) to his/her (UserPortal) Possible bruteforce Attack!</description>
+    </rule>
+    
+    <rule id="910258" level="3">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">17706</field>
+    <description>[AuthenticationEvent] $(user_name) User logged out from his/her (UserPortal)</description>
+    </rule>
+    
+    <!-- VPN -->
+    
+    <rule id="910259" level="6">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">17707</field>
+    <description>[AuthenticationEvent] $(user_name) User logged in successfully to VPN</description>
+    </rule>
+    
+    <rule id="910260" level="6">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">17708</field>
+    <description>[AuthenticationEvent] $(user_name) User failed to sign in to VPN</description>
+    </rule>
+    
+    <!-- brutforce attack agains vpn --> 
+    <rule id="910261" level="10" frequency="3" timeframe="90">
+    <if_matched_sid>910260</if_matched_sid>
+    <same_field>user_name</same_field>
+    <same_srcip/>
+    <description>[AuthenticationEvent] Multiple failed login from $(user_name) into VPN Possible bruteforce Attack!</description>
+    </rule>
+    
+    <rule id="910262" level="3">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">17709</field>
+    <description>[AuthenticationEvent] User : $(user_name) has been logged out from VPN</description>
+    </rule>
+    
+    <rule id="910263" level="6">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">17710</field>
+    <description>[AuthenticationEvent] User : $(user_name) logged in successfully to SSL-VPN </description>
+    </rule>
+    
+    <rule id="910264" level="6">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">17711</field>
+    <description>[AuthenticationEvent] User: $(user_name) failed to sign in to SSL-VPN</description>
+    </rule>
+    
+      <!-- brutforce attack agains vpn --> 
+    <rule id="910265" level="10" frequency="3" timeframe="90">
+    <if_matched_sid>910264</if_matched_sid>
+    <same_field>user_name</same_field>
+    <same_srcip/>
+    <description>[AuthenticationEvent] Multiple failed login from $(user_name) into SSL-VPN Possible bruteforce Attack!</description>
+    </rule>
+    
+    <rule id="910266" level="3">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">17712</field>
+    <description>[AuthenticationEvent] User : $(user_name) has been logged out from SSL-VPN</description>
+    </rule>
+    
+</group>
+
+
+<group name="sophosxgfrw,admin">
+    
+     <!-- rule id reserverd : 910350 -> 910400 -->
+     
+    <rule id="910350" level="8">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">17501</field>
+    <description>[AdminEvents] $(message)</description>
+    </rule>
+    
+    <rule id="910351" level="8">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">17502</field>
+    <description>[AdminEvents] $(message)</description>
+    </rule>
+    <!-- --> 
+    <rule id="910352" level="8">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">17503</field>
+    <description>[AdminEvents] $(message)</description>
+    </rule>
+    
+    <rule id="910353" level="6">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">17504</field>
+    <description>[AdminEvents] $(message)</description>
+    </rule>
+    
+    <rule id="910354" level="6">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">17505</field>
+    <description>[AdminEvents] $(message)</description>
+    </rule>
+    
+    <rule id="910355" level="6">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">17506</field>
+    <description>[AdminEvents] $(message)</description>
+    </rule>
+    
+    <rule id="910356" level="8">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">17507</field>
+    <description>[AdminEvents] Administrator : $(message)</description>
+    </rule>
+    
+    <rule id="910357" level="12" frequency="3" timeframe="90">
+    <if_matched_sid>910356</if_matched_sid>
+    <same_field>user_name</same_field>
+    <same_srcip/>
+    <field name="message">wrong credentials$</field>
+    <description>[AdminEvents] Multiple failed login from $(user_name) into firewall possible bruteforce Attack</description>
+    </rule>
+
+</group>
+
+<group name="sophosxgfrw,waf">
+    
+     <!-- rule id reserverd : 910400 -> 910420 -->
+     
+    <rule id="910400" level="6">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">17071</field>
+    <description>[WAF] A web request is allowed by WAF </description>
+    </rule>
+    
+    <rule id="910401" level="6">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">17072</field>
+    <description>[WAF] A web request is blocked by WAF </description>
+    </rule>
+    
+     
+</group>     
+
+<group name="sophosxgfrw,atp">    
+     <!-- rule id reserverd : 910421 -> 910431 -->
+    <rule id="910421" level="6">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">18009</field>
+    <description>[ATP] Alert by ATP $(malware)</description>
+    </rule>
+    
+    <rule id="910422" level="6">
+    <if_sid>910000</if_sid>
+    <field name="log_message_id">18010</field>
+    <description>[ATP] Drop by ATP $(malware)</description>
+    </rule>
+</group>    

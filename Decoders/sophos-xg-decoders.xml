@@ -1,0 +1,676 @@
+<!-- Modify it at your will. -->
+
+
+<!-- SOPHOS XG v19.5.2 decoders Created by SEFRAOUI Houari -->
+
+<!-- parent decoders -->
+<!--
+<decoder name="sophos-fw-xg">
+  <prematch>^device_name="\w+"\stimestamp="\.+"\sdevice_model="\w+"\sdevice_serial_id="\w+"</prematch>
+</decoder> -->
+
+<decoder name="sophos-fw-xg">
+  <prematch>^device_name="\w+"</prematch>
+</decoder>
+
+<!-- child decocders are PARENTSDECODERS.LOGTYPE  eg: sophos-fw-xg.child -->
+
+
+<decoder name="sophos-fw-xg.child">
+ <parent>sophos-fw-xg</parent>
+  <regex>^device_name="(\w+)"\stimestamp="(\d\d\d\d-\d\d-\d\d)\w(\d\d:\d\d:\d\d)\.+"\sdevice_model="(\w+)"\sdevice_serial_id="\w+"\slog_id="(\d+)"</regex>
+  <order>device_name,date,time,device_model,log_id</order>
+</decoder> 
+
+<decoder name="sophos-fw-xg.child">
+ <parent>sophos-fw-xg</parent>
+  <regex>log_id="\d\d\d\d\d\d\d(\d\d\d\d\d)"|log_id="\d\d\d\d\d\d\d(\d\d\d\d\d)"$|log_id=\d\d\d\d\d\d\d(\d\d\d\d\d)|log_id=\d\d\d\d\d\d\d(\d\d\d\d\d)$</regex>
+  <order>log_message_id</order>
+</decoder> 
+
+<decoder name="sophos-fw-xg.child">
+ <parent>sophos-fw-xg</parent>
+  <regex>log_type="(\w+)"|log_type="(\w+)"$|log_type=(\w+)|log_type=(\w+)$</regex>
+  <order>log_type</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+ <parent>sophos-fw-xg</parent>
+  <regex>log_component="(\w+)"|log_component="(\w+)"$|log_component=(\w+)|log_component=(\w+)$</regex>
+  <order>log_component</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+ <parent>sophos-fw-xg</parent>
+  <regex>log_subtype="(\w+)"|log_subtype="(\w+)"$|log_subtype=(\w+)|log_subtype=(\w+)$</regex>
+  <order>log_subtype</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+ <parent>sophos-fw-xg</parent>
+  <regex>status="(\w+)"|status="(\w+)"$|status=(\w+)|status=(\w+)$</regex>
+  <order>status</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>severity="(\w+)"|severity="(\w+)"$|severity=(\w+)|severity=(\w+)$</regex>
+  <order>severity</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>user_name="(\w+)"|user_name="(\w+)"$</regex>
+  <order>user_name</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>src_ip="(\d+.\d+.\d+.\d+)"|src_ip="(\d+.\d+.\d+.\d+)"$</regex>
+  <order>srcip</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>additional_information="(\.*)"|additional_information="(\.*)"$|additional_information=(\.*)|additional_information=(\.*)$</regex>
+  <order>additional_information</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>message="(\.*)"|message="(\.*)"$</regex>
+  <order>message</order>
+</decoder>
+
+<!-- LOG TYPE : ANTIVIRUS HTTP/HTTPS COMPONANT -->
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>fw_rule_id="(\d+)"|fw_rule_id="(\d+)"$|fw_rule_id=(\d+)|fw_rule_id=(\d+)$</regex>
+  <order>fw_rule_id</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>web_policy_id="(\d+)"|web_policy_id="(\d+)"$|web_policy_id=(\d+)|web_policy_id=(\d+)$</regex>
+  <order>web_policy_id</order>
+</decoder>
+
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>malware="(\.*)"|malware="(\.*)"$</regex>
+  <order>malware_scan_engine</order>
+</decoder>
+
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>url="(\.*)"|url="(\.*)"$</regex>
+  <order>url</order>
+</decoder>
+
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>domain="(\.*)"|domain="(\.*)"$</regex>
+  <order>domain</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>src_country="(\.*)"|src_country="(\.*)"$</regex>
+  <order>src_country</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>dst_ip="(\d+.\d+.\d+.\d+)"|dst_ip="(\d+.\d+.\d+.\d+)"$</regex>
+  <order>dstip</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>src_trans_ip="(\d+.\d+.\d+.\d+)"|src_trans_ip="(\d+.\d+.\d+.\d+)"$</regex>
+  <order>src_nated_ip</order>
+</decoder>
+
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>dst_country="(\.*)"|dst_country="(\.*)"$</regex>
+  <order>dst_country</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>src_port=(\d+)|src_port=(\d+)$|src_port="(\d+)"|src_port="(\d+)"$</regex>
+  <order>srcport</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>dst_port=(\d+)|dst_port=(\d+)$|dst_port="(\d+)"|dst_port="(\d+)"$</regex>
+  <order>dstport</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>http_user_agent="(\.*)"|http_user_agent="(\.*)"$</regex>
+  <order>http_user_agent</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>http_status="(\d+)"|http_status="(\d+)"$|http_status=(\d+)|http_status=(\d+)$</regex>
+  <order>http_status_code</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>protocol="(\.*)"|protocol="(\.*)"$|protocol=(\.*)|protocol=(\.*)$</regex>
+  <order>protocol</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>src_zone_type="(\.*)"|src_zone_type="(\.*)"$</regex>
+  <order>src_zone_type</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>src_zone="(\.*)"|src_zone="(\.*)"$</regex>
+  <order>src_zone</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>dst_zone_type="(\.*)"|dst_zone_type="(\.*)"$</regex>
+  <order>dst_zone_type</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>dst_zone="(\.*)"|dst_zone="(\.*)"$</regex>
+  <order>dst_zone</order>
+</decoder>
+
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>user_group="(\.*)"|user_group="(\.*)"$</regex>
+  <order>user_group</order>
+</decoder>
+
+
+<!-- LOG TYPE : ANTIVIRUS FTP COMPONANT -->
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>con_direction="(\.*)"|con_direction="(\.*)"$</regex>
+  <order>traffic_direction</order> <!-- Download/Upload : Possible value: Download or Upload -->
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>file_name="(\.*)"|file_name="(\.*)"$</regex>
+  <order>file_name</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>file_size="(\d+)"|file_size="(\d+)"$|file_size=(\d+)|file_size=(\d+)$</regex>
+  <order>file_size</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>file_path="(\.*)"|file_path="(\.*)"$</regex>
+  <order>file_path</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>ftpcommand="(\.*)"|ftpcommand="(\.*)"$</regex>
+  <order>ftpcommand</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>dstdomain="(\.*)"|dstdomain="(\.*)"$</regex>
+  <order>domain</order>
+</decoder>
+
+
+<!-- LOG TYPE : Application filter -->
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>app_filter_policy_id="(\d+)"|app_filter_policy_id="(\d+)"$|app_filter_policy_id=(\d+)|app_filter_policy_id=(\d+)$</regex>
+  <order>app_filter_policy_id</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>category="(\.*)"|category="(\.*)"$</regex>
+  <order>category</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>app_name="(\.*)"|app_name="(\.*)"$</regex>
+  <order>app_name</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>app_risk="(\d+)"|app_risk="(\d+)"$|app_risk=(\d+)|app_risk=(\d+)$</regex>
+  <order>app_risk</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>app_technology="(\.*)"|app_technology="(\.*)"$</regex>
+  <order>app_technology</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>app_category="(\.*)"|app_category="(\.*)"$</regex>
+  <order>app_category</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>app_is_cloud="(\.*)"|app_is_cloud="(\.*)"$</regex>
+  <order>app_is_cloudbase</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>parent_app="(\.*)"|parent_app="(\.*)"$</regex>
+  <order>parent_app</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>parent_app_category="(\.*)"|parent_app_category="(\.*)"$</regex>
+  <order>parent_app_category</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>parent_app_risk="(\d+)"|parent_app_risk="(\d+)"$|parent_app_risk=(\d+)|parent_app_risk=(\d+)$</regex>
+  <order>parent_app_risk</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>classification="(\.*)"|classification="(\.*)"$</regex>
+  <order>classification</order>
+</decoder>
+
+
+<!-- ADVANCED THREAT PROTECTION ! ATP LOGS! -->
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>reported_user="(\.*)"|reported_user="(\.*)"$</regex>
+  <order>reported_user</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>proc_user="(\.*)"|proc_user="(\.*)"$</regex>
+  <order>proc_user</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>reported_id="(\.*)"|reported_id="(\.*)"$|reported_id=(\.*)|reported_id=(\.*)$</regex>
+  <order>endpoint_id</order>
+</decoder>
+
+
+<!-- authentification GTW ACCESS --> <!-- authentification EVENTS -->
+
+
+<!-- client used to authenticate webclient .. ipsec .. ios ect.. -->
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>client_used="(\.*)"|client_used="(\.*)"$</regex>
+  <order>appauth_used</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>auth_mechanism="(\.*)"|auth_mechanism="(\.*)"$</regex>
+  <order>auth_mechanism</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>reason="(\.*)"|reason="(\.*)"$</regex>
+  <order>reason</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>src_mac="(\.*)"|src_mac="(\.*)"$</regex>
+  <order>srcmac</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>dst_mac="(\.*)"|dst_mac="(\.*)"$</regex>
+  <order>dstmac</order>
+</decoder>
+
+<!-- EMAIL ANTI SPAM -->
+
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>policy_name="(\.*)"|policy_name="(\.*)"$</regex>
+  <order>policy_name</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>policy_name="(\.*)"|policy_name="(\.*)"$</regex>
+  <order>policy_name</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>sender="(\.*)"|sender="(\.*)"$</regex>
+  <order>sender_email</order>
+</decoder>
+
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>sender="\.*(@\.+)"|sender="\.*(@\.+)"$</regex>
+  <order>sender_domain</order>
+</decoder>
+
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>recipient="(\.*)"|recipient="(\.*)"$</regex>
+  <order>recipient_email</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>subject="(\.*)"|subject="(\.*)"$</regex>
+  <order>mail_subject</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>email_size="(\d+)"|email_size="(\d+)"$</regex>
+  <order>email_size</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>action="(\.*)"|action="(\.*)"$</regex>
+  <order>action</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>src_host="(\.*)"|src_host="(\.*)"$</regex>
+  <order>src_host</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>dst_host="(\.*)"|dst_host="(\.*)"$</regex>
+  <order>dst_host</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>quarantine_reason="(\.*)"|quarantine_reason="(\.*)"$</regex>
+  <order>quarantine_reason</order>
+</decoder>
+
+
+<!-- EMAIL ANTIVIRUS : NEED TO BE IMPELEMNTED LATER WHEN THERE IS SPECIFIQUE! LOGS EXAMPLE!-->
+
+<!-- FIRLEWALL-LOGs : NEED TO BE IMPELEMNTED LATER WHEN THERE IS SPECIFIQUE! LOGS EXAMPLE!-->
+
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>quarantine_reason="(\.*)"|quarantine_reason="(\.*)"$</regex>
+  <order>quarantine_reason</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>in_interface="(\.*)"|in_interface="(\.*)"$</regex>
+  <order>in_interface</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>fw_rule_name="(\.*)"|fw_rule_name="(\.*)"$</regex>
+  <order>fw_rule_name</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>fw_rule_type="(\.*)"|fw_rule_type="(\.*)"$</regex>
+  <order>fw_rule_type</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>out_interface="(\.*)"|out_interface="(\.*)"$</regex>
+  <order>out_interface</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>vlan_id="(\d*)"|vlan_id="(\d*)"$|vlan_id=(\d*)|vlan_id=(\d*)$</regex>
+  <order>source_vlan_id</order>
+</decoder>
+
+<!-- GATEWAY : TSHOOT logs!-->
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>gw_name="(\.*)"|gw_name="(\.*)"$</regex>
+  <order>gw_name</order>
+</decoder>
+
+<!-- Sandstrom : -->
+
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>filename="(\.*)"|filename="(\.*)"$</regex>
+  <order>file_name</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>filetype="(\.*)"|filetype="(\.*)"$</regex>
+  <order>sandstrom_filetype</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>file_hash="(\.*)"|file_hash="(\.*)"$</regex>
+  <order>file_hash</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>source="(\.*)"|source="(\.*)"$</regex>
+  <order>sourceOf_file</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>destination="(\.*)"|destination="(\.*)"$</regex>
+  <order>dst_domain</order>
+</decoder>
+
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>profile_name="(\.*)"|profile_name="(\.*)"$</regex>
+  <order>profile_name</order>
+</decoder>
+
+<!-- SSL/VPN : -->
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>remote_ip="(\d+.\d+.\d+.\d+)"|remote_ip="(\d+.\d+.\d+.\d+)"$</regex>
+  <order>vpnssl_remote_ip</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>ipaddress="(\d+.\d+.\d+.\d+)"|ipaddress="(\d+.\d+.\d+.\d+)"$</regex>
+  <order>vpnssl_ipaddress</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>Mode="(\.*)"|Mode="(\.*)"$</regex>
+  <order>vpn_mode</order>
+</decoder>
+
+<!-- WAF : -->
+
+
+
+<!-- WEB CONTENT POLICY LOGS EVENT : -->
+
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>content_filter_key="(\.*)"|content_filter_key="(\.*)"$</regex>
+  <order>customcontent_fitername</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>http_category="(\.*)"|http_category="(\.*)"$</regex>
+  <order>site_category</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>context_match="(\.*)"|context_match="(\.*)"$</regex>
+  <order>context_match</order>
+</decoder>
+
+
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>exceptions="(\.*)"|exceptions="(\.*)"$</regex>
+  <order>exceptions</order>
+</decoder>
+
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>context_prefix="(\.*)"|context_prefix="(\.*)"$</regex>
+  <order>context_prefix</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>context_sufix="(\.*)"|context_sufix="(\.*)"$</regex>
+  <order>context_sufix</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>http_category_type="(\.*)"|http_category_type="(\.*)"$</regex>
+  <order>http_category_type</order>
+</decoder>
+
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>content_type="(\.*)"|content_type="(\.*)"$</regex>
+  <order>content_type</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>override_token="(\.*)"|override_token="(\.*)"$</regex>
+  <order>override_token</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>override_name="(\.*)"|override_name="(\.*)"$</regex>
+  <order>override_name</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>override_authorizer="(\.*)"|override_authorizer="(\.*)"$</regex>
+  <order>override_authorizer</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>activity_name="(\.*)"|activity_name="(\.*)"$</regex>
+  <order>activity_name</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>download_file_name="(\.*)"|download_file_name="(\.*)"$</regex>
+  <order>download_file_name</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>download_file_type="(\.*)"|download_file_type="(\.*)"$</regex>
+  <order>download_file_type</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>http_referer="(\.*)"|http_referer="(\.*)"$</regex>
+  <order>http_referer</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>upload_file_name="(\.*)"|upload_file_name="(\.*)"$</regex>
+  <order>upload_file_name</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>upload_file_type="(\.*)"|upload_file_type="(\.*)"$</regex>
+  <order>upload_file_type</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>used_quota="(\.*)"|used_quota="(\.*)"$</regex>
+  <order>used_quota</order>
+</decoder>
+
+<decoder name="sophos-fw-xg.child">
+  <parent>sophos-fw-xg</parent>
+  <regex>user_full_name="(\.*)"|user_full_name="(\.*)"$</regex>
+  <order>user_full_name</order>
+</decoder>
+
+
